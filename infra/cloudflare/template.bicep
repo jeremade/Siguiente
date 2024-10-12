@@ -34,7 +34,7 @@ resource networkInterface1 'Microsoft.Network/networkInterfaces@2022-11-01' = {
           subnet: {
             id: subnetId
           }
-          privateIPAllocationMethod: 'Static'
+          privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: {
             id: resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', publicIpAddressName1)
             properties: {
@@ -59,7 +59,7 @@ resource networkInterface2 'Microsoft.Network/networkInterfaces@2022-11-01' = {
           subnet: {
             id: subnetId
           }
-          privateIPAllocationMethod: 'Static'
+          privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: {
             id: resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', publicIpAddressName1)
             properties: {
@@ -84,7 +84,7 @@ resource networkInterface3 'Microsoft.Network/networkInterfaces@2022-11-01' = {
           subnet: {
             id: subnetId
           }
-          privateIPAllocationMethod: 'Static'
+          privateIPAllocationMethod: 'Dynamic'
           publicIPAddress: {
             id: resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', publicIpAddressName1)
             properties: {
