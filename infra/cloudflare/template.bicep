@@ -20,6 +20,8 @@ param tags object
 
 @secure()
 param sshPrivateKey string
+@secure()
+param vmCloudflarePassword string
 
 resource networkInterface1 'Microsoft.Network/networkInterfaces@2022-11-01' = {
   name: networkInterfaceName1
@@ -146,17 +148,7 @@ resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
     osProfile: {
       computerName: virtualMachineComputerName1
       adminUsername: adminUsername
-      linuxConfiguration: {
-        ssh: {
-          publicKeys: [
-            {
-              keyData: sshPrivateKey
-              path: '/home/cloudflare-user-credential-prod/.ssh/authorized_keys'
-            }
-          ]
-        }
-        disablePasswordAuthentication: true
-      }
+      adminPassword: vmCloudflarePassword
     }
     diagnosticsProfile: {
       bootDiagnostics: {
@@ -212,17 +204,7 @@ resource virtualMachine2 'Microsoft.Compute/virtualMachines@2024-03-01' = {
     osProfile: {
       computerName: virtualMachineComputerName2
       adminUsername: adminUsername
-      linuxConfiguration: {
-        ssh: {
-          publicKeys: [
-            {
-              keyData: sshPrivateKey
-              path: '/home/cloudflare-user-credential-prod/.ssh/authorized_keys'
-            }
-          ]
-        }
-        disablePasswordAuthentication: true
-      }
+      adminPassword: vmCloudflarePassword
     }
     diagnosticsProfile: {
       bootDiagnostics: {
@@ -277,17 +259,7 @@ resource virtualMachine3 'Microsoft.Compute/virtualMachines@2024-03-01' = {
     osProfile: {
       computerName: virtualMachineComputerName3
       adminUsername: adminUsername
-      linuxConfiguration: {
-        ssh: {
-          publicKeys: [
-            {
-              keyData: sshPrivateKey
-              path: '/home/cloudflare-user-credential-prod/.ssh/authorized_keys'
-            }
-          ]
-        }
-        disablePasswordAuthentication: true
-      }
+      adminPassword: vmCloudflarePassword
     }
     diagnosticsProfile: {
       bootDiagnostics: {

@@ -11,6 +11,8 @@ param location string
 
 @secure()
 param vmCloudflarePrivateKey string
+@secure()
+param vmCloudflarePassword string
 
 param useVirtualNetworkIntegration bool = false
 param useVirtualNetworkPrivateEndpoint bool = false
@@ -64,6 +66,7 @@ module cloudflareTunnel 'cloudflare/template.bicep' = {
     tags: tags
     location: location
     adminUsername: userCredentialCloudflare
+    vmCloudflarePassword: vmCloudflarePassword
     subnetId: vnet.outputs.virtualNetworkSubnets[0].id
     sshPrivateKey: vmCloudflarePrivateKey
     publicIpAddressName1: tag('ipv4', cloudflare)
