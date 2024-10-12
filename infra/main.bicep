@@ -116,7 +116,7 @@ module eventHubReceiverRoleUserAssignment 'core/security/role.bicep' = if (!empt
   params: {
     principalId: principalId
     roleDefinitionId: eventHubDataReceiverUserRoleDefintion.name
-    principalType: principalType
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -127,7 +127,7 @@ module eventHubSenderRoleUserAssignment 'core/security/role.bicep' = if (!empty(
   params: {
     principalId: principalId
     roleDefinitionId: eventHubDataSenderUserRoleDefintion.name
-    principalType: principalType
+    principalType: 'ServicePrincipal'
   }
 }
 
