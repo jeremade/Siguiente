@@ -15,31 +15,37 @@ param virtualNetworkAddressSpacePrefix string = '10.1.0.0/16'
 param virtualNetworkIntegrationSubnetAddressSpacePrefix string = '10.1.1.0/24'
 param virtualNetworkPrivateEndpointSubnetAddressSpacePrefix string = '10.1.2.0/24'
 
-var envId = environmentName
+func tag(resourceId string, contextId string) string => join([resourceId, contextId], '-')
 
-func tag(id string) string => join([id, envId], '-')
+var userCredential = tag('user-credential', environmentName)
+var userCredentialCloudflare = tag('cloudflare', userCredential)
 
-var resourceGroupName = tag('rg')
-var keyVaultName = tag('vault')
-var eventHubServiceName = tag('eventhub')
-var eventHubServicePrincipalName = tag('eventhub-identity')
-var eventHubNamespaceId = tag('eventhub-namespace')
-var deploymentId = guid(tag('deployment'))
-var eventHubConsumerGroupName = tag('consumer-group')
-var functionPlanName = tag('function-plan')
-var functionAppName = tag('function-app')
-var storageName = guid(tag('storage'))
-var storageSecretName = tag('storage-connection-string')
+var resourceGroupName = tag('rg', environmentName)
+var keyVaultName = tag('vault', environmentName)
+var eventHubServiceName = tag('eventhub', environmentName)
+var eventHubServicePrincipalName = tag('eventhub-identity', environmentName)
+var eventHubNamespaceId = tag('eventhub-namespace', environmentName)
+var deploymentId = guid(tag('deployment', environmentName))
+var eventHubConsumerGroupName = tag('consumer-group', environmentName)
+var functionPlanName = tag('function-plan', environmentName)
+var functionAppName = tag('function-app', environmentName)
+var storageName = guid(tag('storage', environmentName))
+var storageSecretName = tag('storage-connection-string', environmentName)
 
-var virtualNetworkName = tag('vnet')
-var networkSecurityGroupName = tag('nsg')
-var virtualNetworkIntegrationSubnetName = tag('subnet')
-var virtualNetworkPrivateEndpointSubnetName = tag('endpoint')
-var endpointSecurityGroupName = tag('endpoint-nsg')
+var virtualNetworkName = tag('vnet', environmentName)
+var networkSecurityGroupName = tag('nsg', environmentName)
+var virtualNetworkIntegrationSubnetName = tag('subnet', environmentName)
+var virtualNetworkPrivateEndpointSubnetName = tag('endpoint', environmentName)
+var endpointSecurityGroupName = tag('endpoint-nsg', environmentName)
 
-var logAnalyticsName = tag('analytics')
-var applicationInsigntsName = tag('insights')
-var dashboardName = tag('dashboard')
+var cloudflare = tag('cloudflare', environmentName)
+var cloudflare_zone1 = tag(cloudflare, 'zone1')
+var cloudflare_zone2 = tag(cloudflare, 'zone2')
+var cloudflare_zone3 = tag(cloudflare, 'zone3')
+
+var logAnalyticsName = tag('analytics', environmentName)
+var applicationInsigntsName = tag('insights', environmentName)
+var dashboardName = tag('dashboard', environmentName)
 
 var tags = {
   'azd-env-name': environmentName
@@ -52,6 +58,26 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourceGroupName
   location: location
   tags: tags
+}
+
+module cloudflareTunnel 'cloudflare/template.bicep' = {
+  name: 'cloudflareTunnel'
+  scope: rg
+  params: {
+    location: location
+    adminUsername: userCredentialCloudflare
+    subnetId: vnet.outputs.virtualNetworkSubnets[0].id
+    publicIpAddressName1: tag('ipv4', cloudflare)
+    networkInterfaceName1: tag('network-interface', cloudflare_zone1)
+    networkInterfaceName2: tag('network-interface', cloudflare_zone2)
+    networkInterfaceName3: tag('network-interface', cloudflare_zone3)
+    virtualMachineName1: tag('network-vm', cloudflare_zone1)
+    virtualMachineName2: tag('network-vm', cloudflare_zone2)
+    virtualMachineName3: tag('network-vm', cloudflare_zone3)
+    virtualMachineComputerName1: tag('computer', cloudflare_zone1)
+    virtualMachineComputerName2: tag('computer', cloudflare_zone2)
+    virtualMachineComputerName3: tag('computer', cloudflare_zone3)
+  }
 }
 
 module eventHubUserAssignedIdentity 'core/security/userAssignedIdentity.bicep' = {
