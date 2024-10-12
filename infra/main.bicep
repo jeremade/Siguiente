@@ -32,6 +32,7 @@ var eventHubServicePrincipalName = tag('eventhub-identity', resourceGroupName)
 var deploymentId = guid(tag('deployment', resourceGroupName))
 
 var virtualNetworkName = tag('vnet', resourceGroupName)
+var virtualNetworkIpv4 = tag('vnet-ipv4', resourceGroupName)
 var networkSecurityGroupName = tag('nsg', resourceGroupName)
 var virtualNetworkIntegrationSubnetName = tag('subnet', resourceGroupName)
 var virtualNetworkPrivateEndpointSubnetName = tag('endpoint', resourceGroupName)
@@ -59,6 +60,16 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   tags: tags
 }
 
+module cloudflareVpnPublicIp 'cloudflare/public.bicep' = {
+  name: 'virtualNetworkIpv4'
+  scope: rg
+  params: {
+    ipv4AddressName: virtualNetworkIpv4
+    location: location
+    tags: tags
+  }
+}
+
 module cloudflareTunnel 'cloudflare/template.bicep' = {
   name: 'cloudflareTunnel'
   scope: rg
@@ -69,7 +80,7 @@ module cloudflareTunnel 'cloudflare/template.bicep' = {
     vmCloudflarePassword: vmCloudflarePassword
     subnetId: vnet.outputs.virtualNetworkSubnets[0].id
     sshPrivateKey: vmCloudflarePrivateKey
-    publicIpAddressName1: tag('ipv4', cloudflare)
+    publicIpAddressName1: virtualNetworkIpv4
     networkInterfaceName1: tag('network-interface', cloudflare_zone1)
     networkInterfaceName2: tag('network-interface', cloudflare_zone2)
     networkInterfaceName3: tag('network-interface', cloudflare_zone3)

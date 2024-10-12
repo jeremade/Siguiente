@@ -5,7 +5,6 @@ param networkInterfaceName3 string
 param subnetId string
 
 param publicIpAddressName1 string
-param publicIpAddressSku string = 'Standard'
 
 param virtualMachineName1 string
 param virtualMachineComputerName1 string
@@ -35,7 +34,7 @@ resource networkInterface1 'Microsoft.Network/networkInterfaces@2022-11-01' = {
           subnet: {
             id: subnetId
           }
-          privateIPAllocationMethod: 'Dynamic'
+          privateIPAllocationMethod: 'Static'
           publicIPAddress: {
             id: resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', publicIpAddressName1)
             properties: {
@@ -46,9 +45,6 @@ resource networkInterface1 'Microsoft.Network/networkInterfaces@2022-11-01' = {
       }
     ]
   }
-  dependsOn: [
-    publicIpAddress1
-  ]
 }
 
 resource networkInterface2 'Microsoft.Network/networkInterfaces@2022-11-01' = {
@@ -58,17 +54,22 @@ resource networkInterface2 'Microsoft.Network/networkInterfaces@2022-11-01' = {
   properties: {
     ipConfigurations: [
       {
-        name: 'ipconfig1'
+        name: 'ipconfig2'
         properties: {
           subnet: {
             id: subnetId
           }
-          privateIPAllocationMethod: 'Dynamic'
+          privateIPAllocationMethod: 'Static'
+          publicIPAddress: {
+            id: resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', publicIpAddressName1)
+            properties: {
+              deleteOption: 'Detach'
+            }
+          }
         }
       }
     ]
   }
-  dependsOn: []
 }
 
 resource networkInterface3 'Microsoft.Network/networkInterfaces@2022-11-01' = {
@@ -78,34 +79,22 @@ resource networkInterface3 'Microsoft.Network/networkInterfaces@2022-11-01' = {
   properties: {
     ipConfigurations: [
       {
-        name: 'ipconfig1'
+        name: 'ipconfig3'
         properties: {
           subnet: {
             id: subnetId
           }
-          privateIPAllocationMethod: 'Dynamic'
+          privateIPAllocationMethod: 'Static'
+          publicIPAddress: {
+            id: resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', publicIpAddressName1)
+            properties: {
+              deleteOption: 'Detach'
+            }
+          }
         }
       }
     ]
   }
-  dependsOn: []
-}
-
-resource publicIpAddress1 'Microsoft.Network/publicIPAddresses@2024-01-01' = {
-  name: publicIpAddressName1
-  location: location
-  tags: tags
-  properties: {
-    publicIPAllocationMethod: 'Static'
-  }
-  sku: {
-    name: publicIpAddressSku
-  }
-  zones: [
-    '1'
-    '2'
-    '3'
-  ]
 }
 
 resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
@@ -296,5 +285,3 @@ resource virtualMachine3 'Microsoft.Compute/virtualMachines@2024-03-01' = {
 //     }
 //   }
 // }
-
-output cloudflareTunnelPublicIp string = publicIpAddress1.properties.ipAddress
