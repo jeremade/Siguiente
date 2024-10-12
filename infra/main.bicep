@@ -15,7 +15,9 @@ param virtualNetworkAddressSpacePrefix string = '10.1.0.0/16'
 param virtualNetworkIntegrationSubnetAddressSpacePrefix string = '10.1.1.0/24'
 param virtualNetworkPrivateEndpointSubnetAddressSpacePrefix string = '10.1.2.0/24'
 
-func tag(id string) string => join([id, environment().name], '-')
+var envId = environmentName
+
+func tag(id string) string => join([id, envId], '-')
 
 var resourceGroupName = tag('rg')
 var keyVaultName = tag('vault')
