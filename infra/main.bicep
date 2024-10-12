@@ -24,7 +24,7 @@ param principalId string = ''
   'User'
   'ServicePrincipal'
 ])
-param principalType string = 'User'
+param principalType string = 'ServicePrincipal'
 
 // Tags that should be applied to all resources.
 // 
