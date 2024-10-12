@@ -1,7 +1,7 @@
 # Run when commits are pushed to main
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches:
       - main
 
