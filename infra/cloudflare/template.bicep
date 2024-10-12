@@ -3,6 +3,7 @@ param networkInterfaceName1 string
 param networkInterfaceName2 string
 param networkInterfaceName3 string
 param subnetId string
+
 param publicIpAddressName1 string
 param publicIpAddressSku string = 'Standard'
 
@@ -15,9 +16,15 @@ param virtualMachineComputerName2 string
 param virtualMachineName3 string
 param virtualMachineComputerName3 string
 
+param tags object
+
+@secure()
+param sshPrivateKey string
+
 resource networkInterface1 'Microsoft.Network/networkInterfaces@2022-11-01' = {
   name: networkInterfaceName1
   location: location
+  tags: tags
   properties: {
     ipConfigurations: [
       {
@@ -45,6 +52,7 @@ resource networkInterface1 'Microsoft.Network/networkInterfaces@2022-11-01' = {
 resource networkInterface2 'Microsoft.Network/networkInterfaces@2022-11-01' = {
   name: networkInterfaceName2
   location: location
+  tags: tags
   properties: {
     ipConfigurations: [
       {
@@ -64,6 +72,7 @@ resource networkInterface2 'Microsoft.Network/networkInterfaces@2022-11-01' = {
 resource networkInterface3 'Microsoft.Network/networkInterfaces@2022-11-01' = {
   name: networkInterfaceName3
   location: location
+  tags: tags
   properties: {
     ipConfigurations: [
       {
@@ -83,6 +92,7 @@ resource networkInterface3 'Microsoft.Network/networkInterfaces@2022-11-01' = {
 resource publicIpAddress1 'Microsoft.Network/publicIPAddresses@2024-01-01' = {
   name: publicIpAddressName1
   location: location
+  tags: tags
   properties: {
     publicIPAllocationMethod: 'Static'
   }
@@ -96,9 +106,16 @@ resource publicIpAddress1 'Microsoft.Network/publicIPAddresses@2024-01-01' = {
   ]
 }
 
+resource sshPublicKey1 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
+  name: 'sshPublicKey1'
+  location: location
+  tags: tags
+}
+
 resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   name: virtualMachineName1
   location: location
+  tags: tags
   properties: {
     hardwareProfile: {
       vmSize: 'Standard_A1_v2'
@@ -136,6 +153,14 @@ resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
       computerName: virtualMachineComputerName1
       adminUsername: adminUsername
       linuxConfiguration: {
+        ssh: {
+          publicKeys: [
+            {
+              keyData: sshPrivateKey
+              path: '/home/cloudflare-user-credential-test/.ssh/authorized_keys'
+            }
+          ]
+        }
         disablePasswordAuthentication: true
       }
     }
@@ -153,9 +178,16 @@ resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   zones: ['1']
 }
 
+resource sshPublicKey2 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
+  name: 'sshPublicKey2'
+  location: location
+  tags: tags
+}
+
 resource virtualMachine2 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   name: virtualMachineName2
   location: location
+  tags: tags
   properties: {
     hardwareProfile: {
       vmSize: 'Standard_A1_v2'
@@ -193,6 +225,14 @@ resource virtualMachine2 'Microsoft.Compute/virtualMachines@2024-03-01' = {
       computerName: virtualMachineComputerName2
       adminUsername: adminUsername
       linuxConfiguration: {
+        ssh: {
+          publicKeys: [
+            {
+              keyData: sshPrivateKey
+              path: '/home/cloudflare-user-credential-test/.ssh/authorized_keys'
+            }
+          ]
+        }
         disablePasswordAuthentication: true
       }
     }
@@ -208,6 +248,12 @@ resource virtualMachine2 'Microsoft.Compute/virtualMachines@2024-03-01' = {
     product: 'cloudflare_tunnel_vm'
   }
   zones: ['2']
+}
+
+resource sshPublicKey3 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
+  name: 'sshPublicKey3'
+  location: location
+  tags: tags
 }
 
 resource virtualMachine3 'Microsoft.Compute/virtualMachines@2024-03-01' = {
@@ -250,6 +296,14 @@ resource virtualMachine3 'Microsoft.Compute/virtualMachines@2024-03-01' = {
       computerName: virtualMachineComputerName3
       adminUsername: adminUsername
       linuxConfiguration: {
+        ssh: {
+          publicKeys: [
+            {
+              keyData: sshPrivateKey
+              path: '/home/cloudflare-user-credential-test/.ssh/authorized_keys'
+            }
+          ]
+        }
         disablePasswordAuthentication: true
       }
     }
@@ -266,3 +320,27 @@ resource virtualMachine3 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   }
   zones: ['3']
 }
+
+// resource activateRoot 'Microsoft.Compute/virtualMachines/runCommands@2024-07-01' = {
+//   parent: ubuntuVM
+//   name: 'ActivateRootWithSSH'
+//   location: resourceGroup().location
+//   properties:{
+//     protectedParameters: [
+//       {
+//         name: 'ROOTPW'
+//         value: adminPassword
+//       }
+//     ]
+//     errorBlobUri: 'https://<STORAGE ACCOUNT>.blob.core.windows.net/<CONTAINER>/error.txt?<SAS TOKEN>'
+//     outputBlobUri: 'https://<STORAGE ACCOUNT>.blob.core.windows.net/<CONTAINER>/output.txt?<SAS TOKEN>'
+//     source:{
+//       script: '''
+//         sudo passwd -u root && sudo echo "root:$ROOTPW" | chpasswd && echo "root pw changed" \
+//         sudo echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && sudo service ssh reload && echo "ssh restarted"
+//       '''
+//     }
+//   }
+// }
+
+output cloudflareTunnelPublicIp string = publicIpAddress1.properties.ipAddress

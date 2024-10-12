@@ -11,9 +11,3 @@ infra:
 
 pipeline:
   provider: github
-
-services:
-  event-consumer-func:
-    project: apps/az
-    host: function
-    language: js
