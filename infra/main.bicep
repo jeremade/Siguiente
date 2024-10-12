@@ -15,42 +15,50 @@ param virtualNetworkAddressSpacePrefix string = '10.1.0.0/16'
 param virtualNetworkIntegrationSubnetAddressSpacePrefix string = '10.1.1.0/24'
 param virtualNetworkPrivateEndpointSubnetAddressSpacePrefix string = '10.1.2.0/24'
 
-// AZD will set AZURE_PRINCIPAL_ID to the principal ID of the user executing the deployment (identity of the logged in user of AZD).
-@description('The principal ID of the user to assign application roles.')
-param principalId string = ''
+func tag(id string) string => join([id, environment().name], '-')
 
-// Locally, the AZURE_PRINCIPAL_ID may be a user. If running in a GitHub pipeline, AZURE_PRINCIPAL_ID is a service principal.
-@allowed([
-  'User'
-  'ServicePrincipal'
-])
-param principalType string = 'ServicePrincipal'
+var resourceGroupName = tag('rg')
+var keyVaultName = tag('vault')
+var eventHubServiceName = tag('eventhub')
+var eventHubServicePrincipalName = tag('eventhub-identity')
+var eventHubNamespaceId = tag('eventhub-namespace')
+var deploymentId = uniqueString(tag('deployment'), dateTimeFromEpoch())
+var eventHubConsumerGroupName = tag('consumer-group')
+var functionPlanName = tag('function-plan')
+var functionAppName = tag('function-app')
+var storageName = tag('storage')
+var storageSecretName = uniqueString(tag('storage-connection-string'))
 
-// Tags that should be applied to all resources.
-// 
-// Note that 'azd-service-name' tags should be applied separately to service host resources.
-// Example usage:
-//   tags: union(tags, { 'azd-service-name': <service name in azure.yaml> })
+var virtualNetworkName = tag('vnet')
+var networkSecurityGroupName = tag('nsg')
+var virtualNetworkIntegrationSubnetName = tag('subnet')
+var virtualNetworkPrivateEndpointSubnetName = tag('endpoint')
+var endpointSecurityGroupName = tag('endpoint-nsg')
+
+var logAnalyticsName = tag('analytics')
+var applicationInsigntsName = tag('insights')
+var dashboardName = tag('dashboard')
+
 var tags = {
   'azd-env-name': environmentName
+  'deployment-id': deploymentId
 }
 
-var abbrs = loadJsonContent('abbreviations.json')
-var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
-
 var useVirtualNetwork = useVirtualNetworkIntegration || useVirtualNetworkPrivateEndpoint
-var virtualNetworkName = '${abbrs.networkVirtualNetworks}${resourceToken}'
-var virtualNetworkIntegrationSubnetName = '${abbrs.networkVirtualNetworksSubnets}${resourceToken}-int'
-var virtualNetworkPrivateEndpointSubnetName = '${abbrs.networkVirtualNetworksSubnets}${resourceToken}-pe'
-
-var eventHubConsumerGroupName = 'widgetfunctionconsumergroup'
-var functionAppName = '${abbrs.webSitesFunctions}${resourceToken}'
-var storageSecretName = 'storage-connection-string'
 
 resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
-  name: 'rg-${environmentName}'
+  name: resourceGroupName
   location: location
   tags: tags
+}
+
+module eventHubUserAssignedIdentity 'core/security/userAssignedIdentity.bicep' = {
+  name: 'eventHubServicePrincipal'
+  scope: rg
+  params: {
+    name: eventHubServicePrincipalName
+    tags: tags
+  }
 }
 
 @description('This is the built-in role definition for the Key Vault Secret User role. See https://learn.microsoft.com/azure/role-based-access-control/built-in-roles#key-vault-secrets-user for more information.')
@@ -77,8 +85,6 @@ resource storageBlobDataOwnerRoleDefinition 'Microsoft.Authorization/roleDefinit
   name: 'b7e6dc6d-f1e8-4753-8033-0f276bb0955b'
 }
 
-// TODO: Scope to the specific resource (Event Hub, Storage, Key Vault) instead of the resource group.
-//       See https://github.com/Azure/bicep/discussions/5926
 module storageRoleAssignment 'core/security/role.bicep' = {
   name: 'storageRoleAssignment'
   scope: rg
@@ -109,23 +115,21 @@ module eventHubSenderRoleAssignment 'core/security/role.bicep' = {
   }
 }
 
-// Set the RBAC roles for the provided Azure principalId (e.g., the user executing the deployment).
-module eventHubReceiverRoleUserAssignment 'core/security/role.bicep' = if (!empty(principalId)) {
+module eventHubReceiverRoleUserAssignment 'core/security/role.bicep' = {
   name: 'eventHubReceiverRoleUserAssignment'
   scope: rg
   params: {
-    principalId: principalId
+    principalId: eventHubUserAssignedIdentity.outputs.userPrincipalId
     roleDefinitionId: eventHubDataReceiverUserRoleDefintion.name
     principalType: 'ServicePrincipal'
   }
 }
 
-// Set the RBAC roles for the provided Azure principalId (e.g., the user executing the deployment).
-module eventHubSenderRoleUserAssignment 'core/security/role.bicep' = if (!empty(principalId)) {
+module eventHubSenderRoleUserAssignment 'core/security/role.bicep' = {
   name: 'eventHubSenderRoleUserAssignment'
   scope: rg
   params: {
-    principalId: principalId
+    principalId: eventHubUserAssignedIdentity.outputs.userPrincipalId
     roleDefinitionId: eventHubDataSenderUserRoleDefintion.name
     principalType: 'ServicePrincipal'
   }
@@ -145,7 +149,7 @@ module logAnalytics './core/monitor/loganalytics.bicep' = {
   name: 'logAnalytics'
   scope: rg
   params: {
-    name: '${abbrs.operationalInsightsWorkspaces}${resourceToken}'
+    name: logAnalyticsName
     location: location
     tags: tags
   }
@@ -155,13 +159,13 @@ module appInsights './core/monitor/applicationinsights.bicep' = {
   name: 'applicationInsights'
   scope: rg
   params: {
-    name: '${abbrs.insightsComponents}${resourceToken}'
+    name: applicationInsigntsName
+    dashboardName: dashboardName
+    location: location
     tags: tags
 
-    includeDashboard: false
-    dashboardName: ''
+    includeDashboard: true
     logAnalyticsWorkspaceId: logAnalytics.outputs.id
-    location: location
   }
 }
 
@@ -169,7 +173,7 @@ module storage './core/storage/storage-account.bicep' = {
   name: 'storage'
   scope: rg
   params: {
-    name: '${abbrs.storageStorageAccounts}${resourceToken}'
+    name: uniqueString(storageName)
     location: location
     tags: tags
 
@@ -191,7 +195,7 @@ module eventHubNamespace './core/messaging/event-hub-namespace.bicep' = {
   name: 'eventHubNamespace'
   scope: rg
   params: {
-    name: '${abbrs.eventHubNamespaces}${resourceToken}'
+    name: eventHubNamespaceId
     location: location
     tags: tags
 
@@ -205,7 +209,7 @@ module eventHub './core/messaging/event-hub.bicep' = {
   name: 'eventHub'
   scope: rg
   params: {
-    name: '${abbrs.eventHubNamespacesEventHubs}widget'
+    name: eventHubServiceName
     eventHubNamespaceName: eventHubNamespace.outputs.eventHubNamespaceName
     consumerGroupName: eventHubConsumerGroupName
   }
@@ -215,7 +219,7 @@ module keyVault 'core/security/keyvault.bicep' = {
   name: 'keyVault'
   scope: rg
   params: {
-    name: '${abbrs.keyVaultVaults}${resourceToken}'
+    name: keyVaultName
     location: location
     tags: tags
     enabledForRbacAuthorization: true
@@ -227,7 +231,7 @@ module integrationSubnetNsg 'core/networking/network-security-group.bicep' = if 
   name: 'integrationSubnetNsg'
   scope: rg
   params: {
-    name: '${abbrs.networkNetworkSecurityGroups}${resourceToken}-integration-subnet'
+    name: networkSecurityGroupName
     location: location
   }
 }
@@ -236,7 +240,7 @@ module privateEndpointSubnetNsg 'core/networking/network-security-group.bicep' =
   name: 'privateEndpointSubnetNsg'
   scope: rg
   params: {
-    name: '${abbrs.networkNetworkSecurityGroups}${resourceToken}-private-endpoint-subnet'
+    name: endpointSecurityGroupName
     location: location
   }
 }
@@ -277,7 +281,6 @@ module vnet './core/networking/virtual-network.bicep' = if (useVirtualNetwork) {
   }
 }
 
-// Sets up private endpoints and private dns zones for the resources.
 module networking 'core/networking/private-networking.bicep' = if (useVirtualNetworkPrivateEndpoint) {
   name: 'networking'
   scope: rg
@@ -300,7 +303,7 @@ module functionPlan 'core/host/functionplan.bicep' = {
     location: location
     tags: tags
     OperatingSystem: 'Linux'
-    name: '${abbrs.webServerFarms}${resourceToken}'
+    name: functionPlanName
     planSku: 'EP1'
   }
 }
@@ -352,7 +355,6 @@ module functionApp 'core/host/functions.bicep' = {
       // AzureWebJobsStorage__accountName: storage.name
       // AzureWebJobsStorage__credential: 'managedidentity'
       // AzureWebJobsStorage__clientId: uami.properties.clientId
-
     }
   }
 }
