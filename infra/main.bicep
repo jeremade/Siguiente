@@ -28,8 +28,8 @@ var deploymentId = guid(tag('deployment'))
 var eventHubConsumerGroupName = tag('consumer-group')
 var functionPlanName = tag('function-plan')
 var functionAppName = tag('function-app')
-var storageName = tag('storage')
-var storageSecretName = uniqueString(tag('storage-connection-string'))
+var storageName = guid(tag('storage'))
+var storageSecretName = tag('storage-connection-string')
 
 var virtualNetworkName = tag('vnet')
 var networkSecurityGroupName = tag('nsg')
@@ -175,20 +175,16 @@ module storage './core/storage/storage-account.bicep' = {
   name: 'storage'
   scope: rg
   params: {
-    name: uniqueString(storageName)
+    name: storageName
     location: location
     tags: tags
-
     fileShares: [
       {
         name: functionAppName
       }
     ]
-
-    // Set the key vault name to set the connection string as a secret in the key vault.
-    keyVaultName: keyVault.outputs.name
+    keyVaultName: keyVaultName
     keyVaultSecretName: storageSecretName
-
     useVirtualNetworkPrivateEndpoint: useVirtualNetworkPrivateEndpoint
   }
 }
