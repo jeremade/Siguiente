@@ -5,8 +5,7 @@
   "packageManager": "yarn@4.5.0",
   "private": true,
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch --onSuccess \"func start\"",
+    "dev": "func start",
     "start": "func start",
     "test": "echo \"No tests yet...\""
   },
@@ -14,9 +13,7 @@
     "@azure/functions": "^4.5.1",
     "@repo/typescript-config": "*",
     "@types/node": "^20.x",
-    "rimraf": "^6.0.1",
-    "tsup": "^8.3.0",
     "typescript": "^5.6.3"
   },
-  "main": "dist/index.js"
+  "main": "src/index.mjs"
 }

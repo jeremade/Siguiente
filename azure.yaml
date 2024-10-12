@@ -12,4 +12,4 @@ services:
   event-consumer-func:
     project: apps/az
     host: function
-    language: ts
+    language: js

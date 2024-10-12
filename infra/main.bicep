@@ -318,7 +318,7 @@ module functionApp 'core/host/functions.bicep' = {
     managedIdentity: true // creates a system assigned identity
     functionsWorkerRuntime: 'node'
     runtimeName: 'node'
-    runtimeVersion: '6.0'
+    runtimeVersion: '20'
     extensionVersion: '~4'
     storageAccountName: storage.outputs.name
     vnetRouteAllEnabled: true
