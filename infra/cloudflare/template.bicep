@@ -106,12 +106,6 @@ resource publicIpAddress1 'Microsoft.Network/publicIPAddresses@2024-01-01' = {
   ]
 }
 
-resource sshPublicKey1 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
-  name: 'sshPublicKey1'
-  location: location
-  tags: tags
-}
-
 resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
   name: virtualMachineName1
   location: location
@@ -157,7 +151,7 @@ resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
           publicKeys: [
             {
               keyData: sshPrivateKey
-              path: '/home/cloudflare-user-credential-test/.ssh/authorized_keys'
+              path: '/home/cloudflare-user-credential-prod/.ssh/authorized_keys'
             }
           ]
         }
@@ -176,12 +170,6 @@ resource virtualMachine1 'Microsoft.Compute/virtualMachines@2024-03-01' = {
     product: 'cloudflare_tunnel_vm'
   }
   zones: ['1']
-}
-
-resource sshPublicKey2 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
-  name: 'sshPublicKey2'
-  location: location
-  tags: tags
 }
 
 resource virtualMachine2 'Microsoft.Compute/virtualMachines@2024-03-01' = {
@@ -229,7 +217,7 @@ resource virtualMachine2 'Microsoft.Compute/virtualMachines@2024-03-01' = {
           publicKeys: [
             {
               keyData: sshPrivateKey
-              path: '/home/cloudflare-user-credential-test/.ssh/authorized_keys'
+              path: '/home/cloudflare-user-credential-prod/.ssh/authorized_keys'
             }
           ]
         }
@@ -248,12 +236,6 @@ resource virtualMachine2 'Microsoft.Compute/virtualMachines@2024-03-01' = {
     product: 'cloudflare_tunnel_vm'
   }
   zones: ['2']
-}
-
-resource sshPublicKey3 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
-  name: 'sshPublicKey3'
-  location: location
-  tags: tags
 }
 
 resource virtualMachine3 'Microsoft.Compute/virtualMachines@2024-03-01' = {
@@ -300,7 +282,7 @@ resource virtualMachine3 'Microsoft.Compute/virtualMachines@2024-03-01' = {
           publicKeys: [
             {
               keyData: sshPrivateKey
-              path: '/home/cloudflare-user-credential-test/.ssh/authorized_keys'
+              path: '/home/cloudflare-user-credential-prod/.ssh/authorized_keys'
             }
           ]
         }
