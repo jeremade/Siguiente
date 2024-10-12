@@ -38,6 +38,7 @@ jobs:
         run: azd provision --no-prompt
         env:
           AZURE_CF_PRIVATE_KEY: ${{ secrets.AZURE_CF_PRIVATE_KEY }}
+          AZURE_VM_PASS: ${{ secrets.AZURE_VM_PASS }}
           AZD_INITIAL_ENVIRONMENT_CONFIG: ${{ secrets.AZD_INITIAL_ENVIRONMENT_CONFIG }}
       - name: Deploy Application
         run: azd deploy --no-prompt
