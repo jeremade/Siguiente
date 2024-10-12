@@ -321,11 +321,11 @@ module functionApp 'core/host/functions.bicep' = {
     runtimeVersion: '20'
     extensionVersion: '~4'
     storageAccountName: storage.outputs.name
-    vnetRouteAllEnabled: true
+    vnetRouteAllEnabled: false
     kind: 'functionapp,linux'
     alwaysOn: false
-    enableOryxBuild: true
-    scmDoBuildDuringDeployment: false
+    enableOryxBuild: false
+    scmDoBuildDuringDeployment: true
     functionsRuntimeScaleMonitoringEnabled: true
     applicationInsightsName: appInsights.outputs.name
     virtualNetworkIntegrationSubnetId: useVirtualNetworkIntegration ? vnet.outputs.virtualNetworkSubnets[0].id : ''
