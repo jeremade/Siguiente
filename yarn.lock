@@ -6186,12 +6186,6 @@ rimraf@^3.0.2:
   dependencies:
     glob "^7.1.3"
 
-rimraf@^6.0.1:
-  version "6.0.1"
-  dependencies:
-    glob "^11.0.0"
-    package-json-from-dist "^1.0.0"
-
 rollup@^4.19.0, rollup@^4.20.0:
   version "4.24.0"
   dependencies:
@@ -6835,7 +6829,7 @@ tslib@^1.8.1:
 tslib@^2.4.0, tslib@^2.6.2:
   version "2.7.0"
 
-tsup@^8.0.2, tsup@^8.3.0:
+tsup@^8.0.2:
   version "8.3.0"
   dependencies:
     bundle-require "^5.0.0"

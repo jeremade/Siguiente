@@ -324,7 +324,7 @@ module functionApp 'core/host/functions.bicep' = {
     vnetRouteAllEnabled: true
     kind: 'functionapp,linux'
     alwaysOn: false
-    enableOryxBuild: false
+    enableOryxBuild: true
     scmDoBuildDuringDeployment: false
     functionsRuntimeScaleMonitoringEnabled: true
     applicationInsightsName: appInsights.outputs.name
