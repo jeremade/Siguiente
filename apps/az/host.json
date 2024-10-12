@@ -2,6 +2,10 @@
   "version": "2.0",
   "logging": {
     "applicationInsights": {
+      "enableLiveMetrics": true,
+      "httpAutoCollectionOptions": {
+        "enableW3CDistributedTracing": true
+      },
       "samplingSettings": {
         "isEnabled": true,
         "excludedTypes": "Request"

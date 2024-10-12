@@ -23,6 +23,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:apps/api"\
     },\
     {\
+      "name": "az",\
+      "reference": "workspace:apps/az"\
+    },\
+    {\
       "name": "blog",\
       "reference": "workspace:apps/blog"\
     },\
@@ -61,6 +65,7 @@ const RAW_RUNTIME_STATE =
     ["@repo/ui", ["workspace:packages/ui"]],\
     ["admin", ["workspace:apps/admin"]],\
     ["api", ["workspace:apps/api"]],\
+    ["az", ["workspace:apps/az"]],\
     ["blog", ["workspace:apps/blog"]],\
     ["kitchen-sink", ["workspace:."]],\
     ["storefront", ["workspace:apps/storefront"]]\
@@ -72,8 +77,10 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@azure/functions", "npm:4.5.1"],\
           ["prettier", "npm:3.3.3"],\
-          ["turbo", "npm:2.1.3"]\
+          ["turbo", "npm:2.1.3"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -85,6 +92,18 @@ const RAW_RUNTIME_STATE =
           ["@ampproject/remapping", "npm:2.3.0"],\
           ["@jridgewell/gen-mapping", "npm:0.3.5"],\
           ["@jridgewell/trace-mapping", "npm:0.3.25"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@azure/functions", [\
+      ["npm:4.5.1", {\
+        "packageLocation": "./.yarn/cache/@azure-functions-npm-4.5.1-f1f73c2dbb-da07ccc518.zip/node_modules/@azure/functions/",\
+        "packageDependencies": [\
+          ["@azure/functions", "npm:4.5.1"],\
+          ["cookie", "npm:0.6.0"],\
+          ["long", "npm:4.0.0"],\
+          ["undici", "npm:5.28.4"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2092,6 +2111,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/@eslint-js-npm-8.57.1-dec269f278-7562b21be1.zip/node_modules/@eslint/js/",\
         "packageDependencies": [\
           ["@eslint/js", "npm:8.57.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@fastify/busboy", [\
+      ["npm:2.1.1", {\
+        "packageLocation": "./.yarn/cache/@fastify-busboy-npm-2.1.1-455d8b6bf5-2bb8a7eca8.zip/node_modules/@fastify/busboy/",\
+        "packageDependencies": [\
+          ["@fastify/busboy", "npm:2.1.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5227,6 +5255,21 @@ const RAW_RUNTIME_STATE =
           ["axobject-query", "npm:4.1.0"]\
         ],\
         "linkType": "HARD"\
+      }]\
+    ]],\
+    ["az", [\
+      ["workspace:apps/az", {\
+        "packageLocation": "./apps/az/",\
+        "packageDependencies": [\
+          ["az", "workspace:apps/az"],\
+          ["@azure/functions", "npm:4.5.1"],\
+          ["@repo/typescript-config", "workspace:packages/config-typescript"],\
+          ["@types/node", "npm:20.16.11"],\
+          ["rimraf", "npm:6.0.1"],\
+          ["tsup", "virtual:c47115e800a23a5392cdfc4e6017a1f2d8b704228d50c425ddec690d174547aa933f9c3221d88f300409b4fad99355b6856b295833ce2bc9c4d3130b71e9facc#npm:8.3.0"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
+        ],\
+        "linkType": "SOFT"\
       }]\
     ]],\
     ["babel-jest", [\
@@ -8996,6 +9039,19 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
+      ["npm:11.0.0", {\
+        "packageLocation": "./.yarn/cache/glob-npm-11.0.0-3be4126bf5-eeaec5b460.zip/node_modules/glob/",\
+        "packageDependencies": [\
+          ["glob", "npm:11.0.0"],\
+          ["foreground-child", "npm:3.3.0"],\
+          ["jackspeak", "npm:4.0.2"],\
+          ["minimatch", "npm:10.0.1"],\
+          ["minipass", "npm:7.1.2"],\
+          ["package-json-from-dist", "npm:1.0.1"],\
+          ["path-scurry", "npm:2.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:7.2.3", {\
         "packageLocation": "./.yarn/cache/glob-npm-7.2.3-2d866d17a5-59452a9202.zip/node_modules/glob/",\
         "packageDependencies": [\
@@ -10193,6 +10249,14 @@ const RAW_RUNTIME_STATE =
           ["@pkgjs/parseargs", "npm:0.11.0"]\
         ],\
         "linkType": "HARD"\
+      }],\
+      ["npm:4.0.2", {\
+        "packageLocation": "./.yarn/cache/jackspeak-npm-4.0.2-95b4b8a1aa-a1c4d1eb13.zip/node_modules/jackspeak/",\
+        "packageDependencies": [\
+          ["jackspeak", "npm:4.0.2"],\
+          ["@isaacs/cliui", "npm:8.0.2"]\
+        ],\
+        "linkType": "HARD"\
       }]\
     ]],\
     ["jake", [\
@@ -11012,8 +11076,10 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["kitchen-sink", "workspace:."],\
+          ["@azure/functions", "npm:4.5.1"],\
           ["prettier", "npm:3.3.3"],\
-          ["turbo", "npm:2.1.3"]\
+          ["turbo", "npm:2.1.3"],\
+          ["typescript", "patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -11221,6 +11287,15 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["long", [\
+      ["npm:4.0.0", {\
+        "packageLocation": "./.yarn/cache/long-npm-4.0.0-ecd96a31ed-0cc12af1c9.zip/node_modules/long/",\
+        "packageDependencies": [\
+          ["long", "npm:4.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["longest-streak", [\
       ["npm:3.1.0", {\
         "packageLocation": "./.yarn/cache/longest-streak-npm-3.1.0-e2ab1c40ee-d7f952ed00.zip/node_modules/longest-streak/",\
@@ -11245,6 +11320,13 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/lru-cache-npm-10.4.3-30c10b861a-f19e594214.zip/node_modules/lru-cache/",\
         "packageDependencies": [\
           ["lru-cache", "npm:10.4.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:11.0.1", {\
+        "packageLocation": "./.yarn/cache/lru-cache-npm-11.0.1-636ae10c75-8095142b56.zip/node_modules/lru-cache/",\
+        "packageDependencies": [\
+          ["lru-cache", "npm:11.0.1"]\
         ],\
         "linkType": "HARD"\
       }],\
@@ -12462,6 +12544,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["minimatch", [\
+      ["npm:10.0.1", {\
+        "packageLocation": "./.yarn/cache/minimatch-npm-10.0.1-eabcc0d3a0-ad87d95bad.zip/node_modules/minimatch/",\
+        "packageDependencies": [\
+          ["minimatch", "npm:10.0.1"],\
+          ["brace-expansion", "npm:2.0.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:3.1.2", {\
         "packageLocation": "./.yarn/cache/minimatch-npm-3.1.2-9405269906-e0b25b04cd.zip/node_modules/minimatch/",\
         "packageDependencies": [\
@@ -13381,6 +13471,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["path-scurry", "npm:1.11.1"],\
           ["lru-cache", "npm:10.4.3"],\
+          ["minipass", "npm:7.1.2"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:2.0.0", {\
+        "packageLocation": "./.yarn/cache/path-scurry-npm-2.0.0-5a556e8161-b4a7dc53d9.zip/node_modules/path-scurry/",\
+        "packageDependencies": [\
+          ["path-scurry", "npm:2.0.0"],\
+          ["lru-cache", "npm:11.0.1"],\
           ["minipass", "npm:7.1.2"]\
         ],\
         "linkType": "HARD"\
@@ -14563,6 +14662,15 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["rimraf", "npm:3.0.2"],\
           ["glob", "npm:7.2.3"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:6.0.1", {\
+        "packageLocation": "./.yarn/cache/rimraf-npm-6.0.1-2d0b0aeb1b-6958cf4e2c.zip/node_modules/rimraf/",\
+        "packageDependencies": [\
+          ["rimraf", "npm:6.0.1"],\
+          ["glob", "npm:11.0.0"],\
+          ["package-json-from-dist", "npm:1.0.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -16241,6 +16349,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["undici", [\
+      ["npm:5.28.4", {\
+        "packageLocation": "./.yarn/cache/undici-npm-5.28.4-63fa65e206-a666a9f5ac.zip/node_modules/undici/",\
+        "packageDependencies": [\
+          ["undici", "npm:5.28.4"],\
+          ["@fastify/busboy", "npm:2.1.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
       ["npm:6.20.0", {\
         "packageLocation": "./.yarn/cache/undici-npm-6.20.0-e87cda42ae-85b21c8ca6.zip/node_modules/undici/",\
         "packageDependencies": [\
