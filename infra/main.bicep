@@ -40,8 +40,6 @@ var endpointSecurityGroupName = tag('endpoint-nsg', resourceGroupName)
 
 var cloudflare = tag('cloudflare', resourceGroupName)
 var cloudflare_zone1 = tag(cloudflare, 'zone1')
-var cloudflare_zone2 = tag(cloudflare, 'zone2')
-var cloudflare_zone3 = tag(cloudflare, 'zone3')
 
 var logAnalyticsName = tag('analytics', environmentName)
 var applicationInsigntsName = tag('insights', environmentName)
@@ -80,16 +78,10 @@ module cloudflareTunnel 'cloudflare/template.bicep' = {
     vmCloudflarePassword: vmCloudflarePassword
     subnetId: vnet.outputs.virtualNetworkSubnets[0].id
     sshPrivateKey: vmCloudflarePrivateKey
-    publicIpAddressName1: virtualNetworkIpv4
-    networkInterfaceName1: tag('network-interface', cloudflare_zone1)
-    networkInterfaceName2: tag('network-interface', cloudflare_zone2)
-    networkInterfaceName3: tag('network-interface', cloudflare_zone3)
-    virtualMachineName1: tag('network-vm', cloudflare_zone1)
-    virtualMachineName2: tag('network-vm', cloudflare_zone2)
-    virtualMachineName3: tag('network-vm', cloudflare_zone3)
-    virtualMachineComputerName1: tag('computer', cloudflare_zone1)
-    virtualMachineComputerName2: tag('computer', cloudflare_zone2)
-    virtualMachineComputerName3: tag('computer', cloudflare_zone3)
+    publicIpAddressName: virtualNetworkIpv4
+    networkInterfaceName: tag('network-interface', cloudflare_zone1)
+    virtualMachineName: tag('network-vm', cloudflare_zone1)
+    virtualMachineComputerName: tag('computer', cloudflare_zone1)
   }
 }
 
