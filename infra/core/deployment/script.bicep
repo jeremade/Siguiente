@@ -1,7 +1,7 @@
 param name string
 param location string
 param tags object
-param azureCliVersion string = '2.65.0'
+param azureCliVersion string = '2.9.1'
 param env array = []
 param script string = 'echo "Hello Worlds"'
 param arguments string = ''
