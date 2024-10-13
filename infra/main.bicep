@@ -77,11 +77,11 @@ module cloudflareNetworkToken 'core/deployment/script.bicep' = {
       }
       {
         name: 'AZURE_CLOUDFLARE_ACCOUNT_ID'
-        secretValue: cloudflareAccountId
+        value: cloudflareAccountId
       }
       {
         name: 'CLOUDFLARE_API_TUNNELS'
-        secretValue: cloudflareApiTokenTunnel
+        value: cloudflareApiTokenTunnel
       }
     ]
     script: '''
