@@ -140,6 +140,79 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/abort-controller@npm:^2.0.0":
+  version: 2.1.2
+  resolution: "@azure/abort-controller@npm:2.1.2"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/e0d12144041b23e454f13175f622b373594b7e7196ad2bb37b84d2e0f6c9d9b10e74928bc6905fb5e3984864fa58a8c82ec842c7226b8f328a892a5dc5837d71
+  languageName: node
+  linkType: hard
+
+"@azure/core-auth@npm:^1.7.1, @azure/core-auth@npm:^1.8.0":
+  version: 1.8.0
+  resolution: "@azure/core-auth@npm:1.8.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-util": "npm:^1.1.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/7059bf466616b927646d9fe5be32939d7bfaac30d239aec45c74cd681027888dc58f1eb37689ab24538224059de4f20eec0e80dea455ad28e8212eb7fbe40e63
+  languageName: node
+  linkType: hard
+
+"@azure/core-rest-pipeline@npm:^1.15.1":
+  version: 1.17.0
+  resolution: "@azure/core-rest-pipeline@npm:1.17.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-auth": "npm:^1.8.0"
+    "@azure/core-tracing": "npm:^1.0.1"
+    "@azure/core-util": "npm:^1.9.0"
+    "@azure/logger": "npm:^1.0.0"
+    http-proxy-agent: "npm:^7.0.0"
+    https-proxy-agent: "npm:^7.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/0327d1c68a43b7a385ef43064cfd82034c389ba4f05ac5dcff17a8edd448bbb6d6856f890779371f57d9b131c4bb82c5507137f2e2501de5c07446f29afc6979
+  languageName: node
+  linkType: hard
+
+"@azure/core-tracing@npm:^1.0.1, @azure/core-tracing@npm:^1.1.1":
+  version: 1.2.0
+  resolution: "@azure/core-tracing@npm:1.2.0"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/852103a9bd36506d9ef00ff3e24aa954aca5b577c32d514e5c9e871982a0efb5d75ba4145857adebcd8f8aba41f1ff605d41c3d481b002b373eebcf80710e95c
+  languageName: node
+  linkType: hard
+
+"@azure/core-util@npm:^1.1.0, @azure/core-util@npm:^1.8.1, @azure/core-util@npm:^1.9.0":
+  version: 1.10.0
+  resolution: "@azure/core-util@npm:1.10.0"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/8a3395f28ed51624b3f353204c0099ce34f5cd32f1889cfa7bd7d4a11fbe2180e9252ed88218d2755dcbaa5a576dfd607268b2ce2746f150627477109570d630
+  languageName: node
+  linkType: hard
+
+"@azure/cosmos@npm:^4.1.1":
+  version: 4.1.1
+  resolution: "@azure/cosmos@npm:4.1.1"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-auth": "npm:^1.7.1"
+    "@azure/core-rest-pipeline": "npm:^1.15.1"
+    "@azure/core-tracing": "npm:^1.1.1"
+    "@azure/core-util": "npm:^1.8.1"
+    fast-json-stable-stringify: "npm:^2.1.0"
+    jsbi: "npm:^4.3.0"
+    priorityqueuejs: "npm:^2.0.0"
+    semaphore: "npm:^1.1.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/49e16539bad21222ea46e67bfb287ffec2278d143a81b38ef99445c989fe4b3a69309cae57f32ca3ddb8c7c945a0c5cba9620aa0cd6625192d6c94f66e04f5fb
+  languageName: node
+  linkType: hard
+
 "@azure/functions@npm:^4.5.1":
   version: 4.5.1
   resolution: "@azure/functions@npm:4.5.1"
@@ -148,6 +221,15 @@ __metadata:
     long: "npm:^4.0.0"
     undici: "npm:^5.13.0"
   checksum: 10c9/da07ccc518907f63a0c3b414c048755db66d3b6de8a1f778f62f90e133a66e2ae8b23e5ee46d3b298600e55f961c7498b7adc316c610f146f9e2f9284c5f37e7
+  languageName: node
+  linkType: hard
+
+"@azure/logger@npm:^1.0.0":
+  version: 1.1.4
+  resolution: "@azure/logger@npm:1.1.4"
+  dependencies:
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/b04e368bdfe6ea35bbe746356b0a2431e1ce404c62ffb1696e39cec41987255d5371bc278d3b133790835a6da7b0ee0a934445b2973af881682ad757d4d43913
   languageName: node
   linkType: hard
 
@@ -8359,7 +8441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"https-proxy-agent@npm:^7.0.1":
+"https-proxy-agent@npm:^7.0.0, https-proxy-agent@npm:^7.0.1":
   version: 7.0.5
   resolution: "https-proxy-agent@npm:7.0.5"
   dependencies:
@@ -9679,6 +9761,13 @@ __metadata:
   bin:
     js-yaml: bin/js-yaml.js
   checksum: 10c9/c138a34a3fd0d08ebaf71273ad4465569a483b8a639e0b118ff65698d257c2791d3199e3f303631f2cb98213fa7b5f5d6a4621fd0fff819421b990d30d967140
+  languageName: node
+  linkType: hard
+
+"jsbi@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "jsbi@npm:4.3.0"
+  checksum: 10c9/c2195d79c1da263d4d00973c1d7c6676678eafd8cf2ef5fa4ffa684ae3e948a2267cb3de213744e767d22a10dcb6266c88320820ec19f11d282e99acb361e4c9
   languageName: node
   linkType: hard
 
@@ -12853,6 +12942,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"priorityqueuejs@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "priorityqueuejs@npm:2.0.0"
+  checksum: 10c9/94aeb915c75b1a95efec8db83fc1d535d9a2d501fcc4e5f374cf714d76231358064caad9a1f6bb99893f94fad4a411dc9b0a3bce04c7da159119bd7bd82f75d7
+  languageName: node
+  linkType: hard
+
 "prismjs@npm:^1.29.0":
   version: 1.29.0
   resolution: "prismjs@npm:1.29.0"
@@ -13821,6 +13917,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"semaphore@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "semaphore@npm:1.1.0"
+  checksum: 10c9/7a62e0486ab2e361aecf5d88ecb99f42236bb9fbe29e432644d8af371e78c559dc3f2fbef0f57f716491071c214bdf1a15f1f398445b20423278750e2290ea37
+  languageName: node
+  linkType: hard
+
 "semver@npm:2 || 3 || 4 || 5":
   version: 5.7.2
   resolution: "semver@npm:5.7.2"
@@ -14286,6 +14389,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "storefront@workspace:apps/storefront"
   dependencies:
+    "@azure/cosmos": "npm:^4.1.1"
     "@next/eslint-plugin-next": "npm:^14.1.1"
     "@repo/eslint-config": "npm:*"
     "@repo/logger": "npm:*"

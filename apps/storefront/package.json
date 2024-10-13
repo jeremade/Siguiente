@@ -11,6 +11,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@azure/cosmos": "^4.1.1",
     "@repo/logger": "*",
     "@repo/ui": "*",
     "next": "^14.1.1",
