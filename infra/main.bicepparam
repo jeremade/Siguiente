@@ -2,7 +2,7 @@ using './main.bicep'
 
 param environmentName = readEnvironmentVariable('AZURE_ENV_NAME', 'dev')
 param location = readEnvironmentVariable('AZURE_LOCATION', 'eastus2')
-param cloudflareAccountId = readEnvironmentVariable('CLOUDFLARE_ACCOUNT_ID', '')
+param cloudflareAccountId = readEnvironmentVariable('AZURE_CLOUDFLARE_ACCOUNT_ID', '')
 param cloudflareApiTokenTunnel = readEnvironmentVariable('CLOUDFLARE_API_TUNNELS', '')
 param vmCloudflarePrivateKey = readEnvironmentVariable('AZURE_CF_PRIVATE_KEY', '')
 param vmCloudflarePassword = readEnvironmentVariable('AZURE_VM_PASS', '')
