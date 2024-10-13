@@ -10,6 +10,10 @@ param environmentName string
 param location string
 
 @secure()
+param cloudflareAccountId string
+@secure()
+param cloudflareApiTokenTunnel string
+@secure()
 param vmCloudflarePrivateKey string
 @secure()
 param vmCloudflarePassword string
@@ -23,7 +27,7 @@ param virtualNetworkPrivateEndpointSubnetAddressSpacePrefix string = '10.1.2.0/2
 func tag(resourceId string, contextId string) string => join([resourceId, contextId], '-')
 
 var resourceGroupName = tag('env', environmentName)
-var keyVaultName = tag('sigvault', environmentName)
+var keyVaultName = tag('sigkv', environmentName)
 
 var userCredential = tag('user-credential', environmentName)
 var userCredentialCloudflare = tag('cloudflare', userCredential)
@@ -39,6 +43,7 @@ var virtualNetworkPrivateEndpointSubnetName = tag('endpoint', resourceGroupName)
 var endpointSecurityGroupName = tag('endpoint-nsg', resourceGroupName)
 
 var cloudflare = tag('cloudflare', resourceGroupName)
+var cloudflareTunnelTokenScriptName = tag('tunnel-token-script', cloudflare)
 var cloudflare_zone1 = tag(cloudflare, 'zone1')
 
 var logAnalyticsName = tag('analytics', environmentName)
@@ -56,6 +61,40 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   name: resourceGroupName
   location: location
   tags: tags
+}
+
+module cloudflareNetworkToken 'core/deployment/script.bicep' = {
+  name: 'network-token'
+  scope: rg
+  params: {
+    name: cloudflareTunnelTokenScriptName
+    location: location
+    tags: tags
+    env: [
+      {
+        name: 'AZURE_CLOUDFLARE_TUNNEL_SECRET'
+        value: ''
+      }
+      {
+        name: 'AZURE_CLOUDFLARE_ACCOUNT_ID'
+        secretValue: cloudflareAccountId
+      }
+      {
+        name: 'CLOUDFLARE_API_TUNNELS'
+        secretValue: cloudflareApiTokenTunnel
+      }
+    ]
+    script: '''
+      #!/bin/bash
+
+      AZURE_CLOUDFLARE_TUNNEL_SECRET=$(openssl rand -base64 32)
+
+      curl -k -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer $CLOUDFLARE_API_TUNNELS' -d '{
+        "name": "Tunnel Name",
+        "tunnel_secret": "$AZURE_CLOUDFLARE_TUNNEL_SECRET"
+      }' 'https://api.cloudflare.com/client/v4/accounts/$AZURE_CLOUDFLARE_ACCOUNT_ID/tunnels'
+    '''
+  }
 }
 
 module cloudflareVpnPublicIp 'cloudflare/public.bicep' = {
@@ -82,6 +121,7 @@ module cloudflareTunnel 'cloudflare/template.bicep' = {
     networkInterfaceName: tag('network-interface', cloudflare_zone1)
     virtualMachineName: tag('network-vm', cloudflare_zone1)
     virtualMachineComputerName: tag('computer', cloudflare_zone1)
+    tunnelToken: filter(cloudflareNetworkToken.outputs.env, envVar => envVar.name == 'AZURE_CLOUDFLARE_TUNNEL_SECRET')[0].value
   }
 }
 

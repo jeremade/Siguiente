@@ -1,9 +1,6 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/Azure/azure-dev/main/schemas/v1.0/azure.yaml.json
 
-name: function-eventhub-vnet
-
-metadata:
-  template: function-eventhub-vnet 
+name: siguiente
 
 infra:
   provider: bicep
@@ -11,3 +8,4 @@ infra:
 
 pipeline:
   provider: github
+

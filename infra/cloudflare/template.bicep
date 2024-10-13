@@ -12,6 +12,8 @@ param adminUsername string
 param tags object
 
 @secure()
+param tunnelToken string
+@secure()
 param sshPrivateKey string
 @secure()
 param vmCloudflarePassword string
