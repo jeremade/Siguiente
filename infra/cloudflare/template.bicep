@@ -94,7 +94,7 @@ resource virtualMachine 'Microsoft.Compute/virtualMachines@2024-03-01' = {
     publisher: 'cloudflare'
     product: 'cloudflare_tunnel_vm'
   }
-  zones: ['1', '2', '3']
+  zones: ['1']
 }
 
 // resource activateRoot 'Microsoft.Compute/virtualMachines/runCommands@2024-07-01' = {
