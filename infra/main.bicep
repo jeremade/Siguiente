@@ -63,6 +63,24 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   tags: tags
 }
 
+var clientAppName = tag('cf', cloudflare)
+var clientAppCertificateName = tag('cert', cloudflare)
+var clientAppIdentity = tag('identity', cloudflare)
+
+module clientApp 'graph/client.bicep' = {
+  name: 'graph-clientapp'
+  scope: rg
+  params: {
+    tags: tags
+    clientAppName: clientAppName
+    certificateName: clientAppCertificateName
+    identityName: clientAppIdentity
+    shortEnvironmentName: environmentName
+    subjectName: 'siguiente.com'
+    keyVaultNamePrefix: 'sigcf'
+  }
+}
+
 module cloudflareNetworkToken 'core/deployment/script.bicep' = {
   name: 'network-token'
   scope: rg
