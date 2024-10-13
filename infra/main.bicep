@@ -237,9 +237,9 @@ module staticWebApp 'core/host/staticapp.bicep' = {
   scope: rg
   params: {
     name: staticWebappName
-    appName: 'storefront'
+    appName: 'platform'
     tags: union({
-      'azd-service-name': 'storefront'
+      'azd-service-name': 'platform'
     }, tags)
   }
 }

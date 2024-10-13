@@ -10,7 +10,7 @@ pipeline:
   provider: github
 
 services:
-  storefront:
+  platform:
     host: staticwebapp
-    project: ./apps/storefront
+    project: ./apps/platform
     language: ts
