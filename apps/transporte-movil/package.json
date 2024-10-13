@@ -1,0 +1,9 @@
+{
+  "name": "transporte-movil",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "init:linux": "sudo snap install flutter --classic",
+    "dev": "flutter run"
+  }
+}
