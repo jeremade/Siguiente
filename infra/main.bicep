@@ -41,6 +41,7 @@ var networkSecurityGroupName = tag('nsg', resourceGroupName)
 var virtualNetworkIntegrationSubnetName = tag('subnet', resourceGroupName)
 var virtualNetworkPrivateEndpointSubnetName = tag('endpoint', resourceGroupName)
 var endpointSecurityGroupName = tag('endpoint-nsg', resourceGroupName)
+var staticWebappName = tag('webapp', resourceGroupName)
 
 var cloudflare = tag('cloudflare', resourceGroupName)
 var cloudflareTunnelTokenScriptName = tag('tunnel-token-script', cloudflare)
@@ -228,5 +229,17 @@ module vnet './core/networking/virtual-network.bicep' = if (useVirtualNetwork) {
         privateEndpointNetworkPolicies: 'Disabled'
       }
     ]
+  }
+}
+
+module staticWebApp 'core/host/staticapp.bicep' = {
+  name: 'staticWebApp'
+  scope: rg
+  params: {
+    name: staticWebappName
+    appName: 'storefront'
+    tags: union({
+      'azd-service-name': 'storefront'
+    }, tags)
   }
 }

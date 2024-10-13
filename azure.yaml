@@ -9,3 +9,8 @@ infra:
 pipeline:
   provider: github
 
+services:
+  storefront:
+    host: staticwebapp
+    project: ./apps/storefront
+    language: ts
