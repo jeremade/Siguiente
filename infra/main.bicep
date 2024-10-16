@@ -72,6 +72,7 @@ module cosmosDocumentDbAccount './cosmos/cosmos-account.bicep' = {
   scope: rg
   params: {
     name: tag('account', cosmosName)
+    tags: tags
     location: location
     keyVaultName: keyVault.outputs.name
     keyVaultIdentity: cosmosIdentity.outputs.name
@@ -116,16 +117,6 @@ module cosmosRoleDefinition './cosmos/sql/cosmos-sql-role-def.bicep' = {
   scope: rg
   params: {
     accountName: cosmosDocumentDbAccount.outputs.name
-  }
-}
-
-module userRole './cosmos/sql/cosmos-sql-role-assign.bicep' = {
-  name: 'cosmos-sql-user-role'
-  scope: rg
-  params: {
-    accountName: cosmosDocumentDbAccount.outputs.name
-    roleDefinitionId: cosmosRoleDefinition.outputs.id
-    principalId: cosmosIdentity.outputs.userPrincipalId
   }
 }
 

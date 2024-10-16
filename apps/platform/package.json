@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@azure/communication-email": "^1.0.0",
     "@azure/cosmos": "^4.1.1",
     "@edge-runtime/node-utils": "3.0.0",
     "@repo/cosmos": "workspace:*",

@@ -14,6 +14,7 @@ export async function GET(
   }
 ) {
   const cosmos = new CosmosClient(process.env.AZURE_COSMOS_KEY!);
+
   const product = await cosmos
     .database("A")
     .container("Products")

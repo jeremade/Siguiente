@@ -147,6 +147,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@azure/abort-controller@npm:^1.0.0":
+  version: 1.1.0
+  resolution: "@azure/abort-controller@npm:1.1.0"
+  dependencies:
+    tslib: "npm:^2.2.0"
+  checksum: 10c9/1efe8735cfe6411f42ab9dda86be627073e0e3345a89bd5d0560175523ab3939db2c82fd17965a49fc70513377866539c91a5c73c871b5a0d771329ffae87dda
+  languageName: node
+  linkType: hard
+
 "@azure/abort-controller@npm:^2.0.0":
   version: 2.1.2
   resolution: "@azure/abort-controller@npm:2.1.2"
@@ -156,7 +165,39 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-auth@npm:^1.7.1, @azure/core-auth@npm:^1.8.0":
+"@azure/communication-common@npm:^2.2.0":
+  version: 2.3.1
+  resolution: "@azure/communication-common@npm:2.3.1"
+  dependencies:
+    "@azure/abort-controller": "npm:^1.0.0"
+    "@azure/core-auth": "npm:^1.3.0"
+    "@azure/core-rest-pipeline": "npm:^1.3.2"
+    "@azure/core-tracing": "npm:^1.0.0"
+    "@azure/core-util": "npm:^1.0.0"
+    events: "npm:^3.0.0"
+    jwt-decode: "npm:^4.0.0"
+    tslib: "npm:^2.2.0"
+  checksum: 10c9/6a3edd03609a7abae652f20cc7e1293431765116f56cb79b5efed2a8c050b97f582decf71d2344ec760b20e48a8e74a092d938b750cf91cc91d23487018d63ad
+  languageName: node
+  linkType: hard
+
+"@azure/communication-email@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@azure/communication-email@npm:1.0.0"
+  dependencies:
+    "@azure/communication-common": "npm:^2.2.0"
+    "@azure/core-auth": "npm:^1.3.0"
+    "@azure/core-client": "npm:^1.3.2"
+    "@azure/core-lro": "npm:^2.5.0"
+    "@azure/core-rest-pipeline": "npm:^1.8.0"
+    "@azure/logger": "npm:^1.0.0"
+    tslib: "npm:^1.9.3"
+    uuid: "npm:^8.3.2"
+  checksum: 10c9/16d292dd9c93aefcb7babd01ae1974982ac39932b0e64e7a999cd5bc696bfe848ca78b909d9744d9b3eb2a50c156c6bc226f6cabe47ea70ff2c55b49e3a32d3d
+  languageName: node
+  linkType: hard
+
+"@azure/core-auth@npm:^1.3.0, @azure/core-auth@npm:^1.4.0, @azure/core-auth@npm:^1.7.1, @azure/core-auth@npm:^1.8.0":
   version: 1.8.0
   resolution: "@azure/core-auth@npm:1.8.0"
   dependencies:
@@ -167,7 +208,34 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-rest-pipeline@npm:^1.15.1":
+"@azure/core-client@npm:^1.3.2":
+  version: 1.9.2
+  resolution: "@azure/core-client@npm:1.9.2"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-auth": "npm:^1.4.0"
+    "@azure/core-rest-pipeline": "npm:^1.9.1"
+    "@azure/core-tracing": "npm:^1.0.0"
+    "@azure/core-util": "npm:^1.6.1"
+    "@azure/logger": "npm:^1.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/fce745648a6de8aee535054e21a5e77c6379af934c4b66e7aed714e2cbcb6e830c83b08ecc0562b3313795022d37ae0e02c4deaf3fc498cd7ddf1cd21a42cf11
+  languageName: node
+  linkType: hard
+
+"@azure/core-lro@npm:^2.5.0":
+  version: 2.7.2
+  resolution: "@azure/core-lro@npm:2.7.2"
+  dependencies:
+    "@azure/abort-controller": "npm:^2.0.0"
+    "@azure/core-util": "npm:^1.2.0"
+    "@azure/logger": "npm:^1.0.0"
+    tslib: "npm:^2.6.2"
+  checksum: 10c9/473e383048c7caa70a6ab0e6b277f84352817bcd9d33ef2d3e87cfc6e6b68273d2dc0dca26c8104e2e230e8900a057ef655687a10a6bafdcd81f98d3796373f4
+  languageName: node
+  linkType: hard
+
+"@azure/core-rest-pipeline@npm:^1.15.1, @azure/core-rest-pipeline@npm:^1.3.2, @azure/core-rest-pipeline@npm:^1.8.0, @azure/core-rest-pipeline@npm:^1.9.1":
   version: 1.17.0
   resolution: "@azure/core-rest-pipeline@npm:1.17.0"
   dependencies:
@@ -183,7 +251,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-tracing@npm:^1.0.1, @azure/core-tracing@npm:^1.1.1":
+"@azure/core-tracing@npm:^1.0.0, @azure/core-tracing@npm:^1.0.1, @azure/core-tracing@npm:^1.1.1":
   version: 1.2.0
   resolution: "@azure/core-tracing@npm:1.2.0"
   dependencies:
@@ -192,7 +260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/core-util@npm:^1.1.0, @azure/core-util@npm:^1.8.1, @azure/core-util@npm:^1.9.0":
+"@azure/core-util@npm:^1.0.0, @azure/core-util@npm:^1.1.0, @azure/core-util@npm:^1.2.0, @azure/core-util@npm:^1.6.1, @azure/core-util@npm:^1.8.1, @azure/core-util@npm:^1.9.0":
   version: 1.10.0
   resolution: "@azure/core-util@npm:1.10.0"
   dependencies:
@@ -7609,6 +7677,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"events@npm:^3.0.0":
+  version: 3.3.0
+  resolution: "events@npm:3.3.0"
+  checksum: 10c9/a3d47e285e28d324d7180f1e493961a2bbb4cad6412090e4dec114f4db1f5b560c7696ee8e758f55e23913ede856e3689cd3aa9ae13c56b5d8314cd3b3ddd1be
+  languageName: node
+  linkType: hard
+
 "execa@npm:5.1.1, execa@npm:^5.0.0, execa@npm:^5.1.1":
   version: 5.1.1
   resolution: "execa@npm:5.1.1"
@@ -10181,6 +10256,13 @@ __metadata:
     object.assign: "npm:^4.1.4"
     object.values: "npm:^1.1.6"
   checksum: 10c9/0328b8fa0f63548dc6b38937369c2d9794783ad983837d3d09b7d0418bdf122d105589678b87910760d4fa63ad00f109b03d8ff953f756f6dc68ec9278716781
+  languageName: node
+  linkType: hard
+
+"jwt-decode@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "jwt-decode@npm:4.0.0"
+  checksum: 10c9/8e20c2e1917482783fe993c3dc48fe3ecba5a2b87e8acde5908c6f134cb2192055e423529adf1ab6cf577a4187a76be9bb10f5d98febabf6edbe808d5aeb6d48
   languageName: node
   linkType: hard
 
@@ -12952,6 +13034,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "platform@workspace:apps/platform"
   dependencies:
+    "@azure/communication-email": "npm:^1.0.0"
     "@azure/cosmos": "npm:^4.1.1"
     "@edge-runtime/node-utils": "npm:3.0.0"
     "@repo/cosmos": "workspace:*"
@@ -15464,10 +15547,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tslib@npm:^1.8.1":
+"tslib@npm:^1.8.1, tslib@npm:^1.9.3":
   version: 1.14.1
   resolution: "tslib@npm:1.14.1"
   checksum: 10c9/017e81634334bc011282479d574468a13575f36042bf38eb3fa9259bac68c4f121185934d069ec9c5af207eb93f8d3b9e7440bad42f3c42ac6d6bad7c43649ee
+  languageName: node
+  linkType: hard
+
+"tslib@npm:^2.2.0":
+  version: 2.8.0
+  resolution: "tslib@npm:2.8.0"
+  checksum: 10c9/5b12f8a9cfc28b6a12f1c43da8e8a944ec23daf017f7692e9010f8da8bd07f1560e5413b553cf1a12536dd8348e665d25580929f64b91a5bbc175cd95cefc739
   languageName: node
   linkType: hard
 
@@ -16163,6 +16253,15 @@ __metadata:
   version: 1.0.1
   resolution: "utils-merge@npm:1.0.1"
   checksum: 10c9/5d6949693d58cb2e636a84f3ee1c6e7b2f9c16cb1d42d0ecb386d8c025c69e327205aa1c69e2868cc06a01e5e20681fbba55a4e0ed0cce913d60334024eae798
+  languageName: node
+  linkType: hard
+
+"uuid@npm:^8.3.2":
+  version: 8.3.2
+  resolution: "uuid@npm:8.3.2"
+  bin:
+    uuid: dist/bin/uuid
+  checksum: 10c9/401cfc7df7688a166a15deda7278f43cc37af84fc9ce6f70e00e8ff7a774f6e3c3e070c08548134914751151c995f34e6ef34ca2a8efab5ddd244fc807858aec
   languageName: node
   linkType: hard
 
