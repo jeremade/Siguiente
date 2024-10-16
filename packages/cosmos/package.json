@@ -1,0 +1,20 @@
+{
+  "name": "@repo/cosmos",
+  "module": "src/index.ts",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@azure/cosmos": "*",
+    "@edge-runtime/ponyfill": "3.0.0",
+    "@edge-runtime/primitives": "^5.1.0",
+    "@repo/typescript-config": "*",
+    "@types/bun": "latest",
+    "@types/lodash": "^4.17.10"
+  },
+  "peerDependencies": {
+    "lodash": "4.17.21",
+    "typescript": "^5.3.3",
+    "zod": "^3.23.8"
+  }
+}

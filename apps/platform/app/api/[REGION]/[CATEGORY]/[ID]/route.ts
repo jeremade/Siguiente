@@ -1,9 +1,5 @@
 import { CosmosClient } from "@azure/cosmos";
-import { NextRequest } from "next/server";
-
-function cosmosdbkey(region: string) {
-  return process.env["COSMOS_" + region]!;
-}
+import { type NextRequest } from "next/server";
 
 export async function GET(
   _request: NextRequest,
@@ -17,10 +13,10 @@ export async function GET(
     };
   }
 ) {
-  const cosmos = new CosmosClient(cosmosdbkey(params.REGION));
+  const cosmos = new CosmosClient(process.env.AZURE_COSMOS_KEY!);
   const product = await cosmos
-    .database("SampleDB")
-    .container("SampleContainer")
+    .database("A")
+    .container("Products")
     .item(params.ID, params.CATEGORY)
     .read();
 

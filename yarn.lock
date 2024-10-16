@@ -202,7 +202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@azure/cosmos@npm:^4.1.1":
+"@azure/cosmos@npm:*, @azure/cosmos@npm:^4.1.1":
   version: 4.1.1
   resolution: "@azure/cosmos@npm:4.1.1"
   dependencies:
@@ -860,6 +860,27 @@ __metadata:
   version: 0.2.3
   resolution: "@bcoe/v8-coverage@npm:0.2.3"
   checksum: 10c9/1a1f0e356a3bb30b5f1ced6f79c413e6ebacf130421f15fac5fcd8be5ddf98aedb4404d7f5624e3285b700e041f9ef938321f3ca4d359d5b716f96afa120d88d
+  languageName: node
+  linkType: hard
+
+"@edge-runtime/node-utils@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@edge-runtime/node-utils@npm:3.0.0"
+  checksum: 10c9/d2bd09e7253726904cbb177a42c5e12efae3808aa0fa80b7ef039735effba66ca16a1b7000eb4f79d674fc9675f60ef7d62fd64f0ce7bfa7bfd2186445253a50
+  languageName: node
+  linkType: hard
+
+"@edge-runtime/ponyfill@npm:3.0.0":
+  version: 3.0.0
+  resolution: "@edge-runtime/ponyfill@npm:3.0.0"
+  checksum: 10c9/9d91b17c2d9cc2df5729d13f92667628f428f9a3e152007e083845aa91d84fbc5d120a7c0343389eeb28d29f9a0addd996fa8e702b9bee42b078ed18062ebad8
+  languageName: node
+  linkType: hard
+
+"@edge-runtime/primitives@npm:^5.1.0":
+  version: 5.1.0
+  resolution: "@edge-runtime/primitives@npm:5.1.0"
+  checksum: 10c9/fc289be17ddfe74213ed6d6ca04294addb5e22f93cc1dc40c75e3f73904ef126292c294e6f94249f09610a80865d10e10fb3669a8263507c60b7b79932745325
   languageName: node
   linkType: hard
 
@@ -2690,6 +2711,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@repo/cosmos@workspace:*, @repo/cosmos@workspace:packages/cosmos":
+  version: 0.0.0-use.local
+  resolution: "@repo/cosmos@workspace:packages/cosmos"
+  dependencies:
+    "@azure/cosmos": "npm:*"
+    "@edge-runtime/ponyfill": "npm:3.0.0"
+    "@edge-runtime/primitives": "npm:^5.1.0"
+    "@repo/typescript-config": "npm:*"
+    "@types/bun": "npm:latest"
+    "@types/lodash": "npm:^4.17.10"
+  peerDependencies:
+    lodash: 4.17.21
+    typescript: ^5.3.3
+    zod: ^3.23.8
+  languageName: unknown
+  linkType: soft
+
 "@repo/eslint-config@npm:*, @repo/eslint-config@workspace:packages/config-eslint":
   version: 0.0.0-use.local
   resolution: "@repo/eslint-config@workspace:packages/config-eslint"
@@ -3101,6 +3139,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/bun@npm:latest":
+  version: 1.1.11
+  resolution: "@types/bun@npm:1.1.11"
+  dependencies:
+    bun-types: "npm:1.1.30"
+  checksum: 10c9/b4bec431db51805cdfb7da152cae93acf0ceead8eed0af32a2910d7cb47e6023aa6f3af3de75645ac80cc54408da19ded4a4d7fb0ebc0230d3eb6f04d92c688d
+  languageName: node
+  linkType: hard
+
 "@types/concat-stream@npm:^2.0.0":
   version: 2.0.3
   resolution: "@types/concat-stream@npm:2.0.3"
@@ -3292,6 +3339,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/lodash@npm:^4.17.10":
+  version: 4.17.10
+  resolution: "@types/lodash@npm:4.17.10"
+  checksum: 10c9/10fe24a93adc6048cb23e4135c1ed1d52cc39033682e6513f4f51b74a9af6d7a24fbea92203c22dc4e01e35f1ab3aa0fd0a2b487e8a4a2bbdf1fc05970094066
+  languageName: node
+  linkType: hard
+
 "@types/mdast@npm:^3.0.0":
   version: 3.0.15
   resolution: "@types/mdast@npm:3.0.15"
@@ -3371,6 +3425,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~6.19.2"
   checksum: 10c9/6d2f92b7b320c32ba0c2bc54d21651bd21690998a2e27f00d15019d4db3e0ec30fce85332efed5e37d4cda078ff93ea86ee3e92b76b7a25a9b92a52a039b60b2
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:~20.12.8":
+  version: 20.12.14
+  resolution: "@types/node@npm:20.12.14"
+  dependencies:
+    undici-types: "npm:~5.26.4"
+  checksum: 10c9/8ce987f0b7e15116e92894c51ee53fe0cbd98dafb5693a2e7d490f16396552528114d055ca1b144d3fdc5ba7d5f5ce28ad091a693c24337615f047cefc3faa36
   languageName: node
   linkType: hard
 
@@ -3503,6 +3566,15 @@ __metadata:
   version: 2.0.11
   resolution: "@types/unist@npm:2.0.11"
   checksum: 10c9/6d436e832bc35c6dde9f056ac515ebf2b3384a1d7f63679d12358766f9b313368077402e9c1126a14d827f10370a5485e628bf61aa91117cf4fc882423191a4e
+  languageName: node
+  linkType: hard
+
+"@types/ws@npm:~8.5.10":
+  version: 8.5.12
+  resolution: "@types/ws@npm:8.5.12"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c9/d8a3ddfb5ff8fea992a043113579d61ac1ea21e8464415af9e2b01b205ed19d817821ad64ca1b3a90062d1df1c23b0f586d8351d25ca6728844df99a74e8f76d
   languageName: node
   linkType: hard
 
@@ -5038,6 +5110,16 @@ __metadata:
   version: 3.3.0
   resolution: "builtin-modules@npm:3.3.0"
   checksum: 10c9/62e063ab40c0c1efccbfa9ffa31873e4f9d57408cb396a2649981a0ecbce56aabc93c28feaccbc5658c95aab2703ad1d11980e62ec2e5e72637404e1eb60f39e
+  languageName: node
+  linkType: hard
+
+"bun-types@npm:1.1.30":
+  version: 1.1.30
+  resolution: "bun-types@npm:1.1.30"
+  dependencies:
+    "@types/node": "npm:~20.12.8"
+    "@types/ws": "npm:~8.5.10"
+  checksum: 10c9/dca392a0d42620e8f5dcd627495403a4535550d38beb4ea59a3d070ef8b1415c0a5894bc2000964ee993ffc437554348217a4e6966ef3a608c141a8f0144a775
   languageName: node
   linkType: hard
 
@@ -12871,6 +12953,8 @@ __metadata:
   resolution: "platform@workspace:apps/platform"
   dependencies:
     "@azure/cosmos": "npm:^4.1.1"
+    "@edge-runtime/node-utils": "npm:3.0.0"
+    "@repo/cosmos": "workspace:*"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
     "@types/react-dom": "npm:^18"
@@ -15703,6 +15787,13 @@ __metadata:
     has-symbols: "npm:^1.0.3"
     which-boxed-primitive: "npm:^1.0.2"
   checksum: 10c9/06e1ee41c1095e37281cb71a975cb3350f7cb470a0665d2576f02cc9564f623bd90cfc0183693b8a7fdf2d242963dcc3010b509fa3ac683f540c765c0f3e7e43
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 10c9/0097779d94bc0fd26f0418b3a05472410408877279141ded2bd449167be1aed7ea5b76f756562cb3586a07f251b90799bab22d9019ceba49c037c76445f7cddd
   languageName: node
   linkType: hard
 

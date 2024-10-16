@@ -9,15 +9,6 @@ param environmentName string
 @description('Primary location for all resources')
 param location string
 
-@secure()
-param cloudflareAccountId string
-@secure()
-param cloudflareApiTokenTunnel string
-@secure()
-param vmCloudflarePrivateKey string
-@secure()
-param vmCloudflarePassword string
-
 param useVirtualNetworkIntegration bool = false
 param useVirtualNetworkPrivateEndpoint bool = false
 param virtualNetworkAddressSpacePrefix string = '10.1.0.0/16'
@@ -28,24 +19,17 @@ func tag(resourceId string, contextId string) string => join([resourceId, contex
 
 var resourceGroupName = tag('env', environmentName)
 var keyVaultName = tag('sigkv', environmentName)
+var cosmosName = tag('sig-cosmos', environmentName)
 
-var userCredential = tag('user-credential', environmentName)
-var userCredentialCloudflare = tag('cloudflare', userCredential)
 
 var eventHubServicePrincipalName = tag('eventhub-identity', resourceGroupName)
 var deploymentId = guid(tag('deployment', resourceGroupName))
 
 var virtualNetworkName = tag('vnet', resourceGroupName)
-var virtualNetworkIpv4 = tag('vnet-ipv4', resourceGroupName)
 var networkSecurityGroupName = tag('nsg', resourceGroupName)
 var virtualNetworkIntegrationSubnetName = tag('subnet', resourceGroupName)
 var virtualNetworkPrivateEndpointSubnetName = tag('endpoint', resourceGroupName)
 var endpointSecurityGroupName = tag('endpoint-nsg', resourceGroupName)
-var staticWebappName = tag('webapp', resourceGroupName)
-
-var cloudflare = tag('cloudflare', resourceGroupName)
-var cloudflareTunnelTokenScriptName = tag('tunnel-token-script', cloudflare)
-var cloudflare_zone1 = tag(cloudflare, 'zone1')
 
 var logAnalyticsName = tag('analytics', environmentName)
 var applicationInsigntsName = tag('insights', environmentName)
@@ -64,65 +48,84 @@ resource rg 'Microsoft.Resources/resourceGroups@2022-09-01' = {
   tags: tags
 }
 
-module cloudflareNetworkToken 'core/deployment/script.bicep' = {
-  name: 'network-token'
+module cosmosIdentity 'core/security/userAssignedIdentity.bicep' = {
+  name: 'cosmos-user-assigned-identity'
   scope: rg
   params: {
-    name: cloudflareTunnelTokenScriptName
-    location: location
+    name: tag('identity', cosmosName)
     tags: tags
-    env: [
+  }
+}
+
+module cosmosRoleAssignment './cosmos/sql/cosmos-sql-role-assign.bicep' = {
+  name: 'api-cosmos-access'
+  scope: rg
+  params: {
+    accountName: cosmosDocumentDbAccount.outputs.name
+    roleDefinitionId: cosmosRoleDefinition.outputs.id
+    principalId: cosmosIdentity.outputs.userPrincipalId
+  }
+}
+
+module cosmosDocumentDbAccount './cosmos/cosmos-account.bicep' = {
+  name: 'cosmos-account'
+  scope: rg
+  params: {
+    name: tag('account', cosmosName)
+    location: location
+    keyVaultName: keyVault.outputs.name
+    keyVaultIdentity: cosmosIdentity.outputs.name
+    kind: 'GlobalDocumentDB'
+    locations: [
       {
-        name: 'AZURE_CLOUDFLARE_TUNNEL_SECRET'
-        value: ''
+        locationName: 'Mexico Central'
+        failoverPriority: 0
+        isZoneRedundant: false
       }
       {
-        name: 'AZURE_CLOUDFLARE_ACCOUNT_ID'
-        value: cloudflareAccountId
+        locationName: 'East US 2'
+        failoverPriority: 2
+        isZoneRedundant: false
       }
       {
-        name: 'CLOUDFLARE_API_TUNNELS'
-        value: cloudflareApiTokenTunnel
+        locationName: 'South Central US'
+        failoverPriority: 1
+        isZoneRedundant: false
+      }
+      {
+        locationName: 'West US 3'
+        failoverPriority: 3
+        isZoneRedundant: false
+      }
+      {
+        locationName: 'Spain Central'
+        failoverPriority: 4
+        isZoneRedundant: false
+      }
+      {
+        locationName: 'Brazil South'
+        failoverPriority: 5
+        isZoneRedundant: false
       }
     ]
-    script: '''
-      #!/bin/bash
-
-      AZURE_CLOUDFLARE_TUNNEL_SECRET=$(openssl rand -base64 32)
-
-      curl -k -X POST -H 'Content-Type: application/json' -H 'Authorization: Bearer $CLOUDFLARE_API_TUNNELS' -d '{
-        "name": "Tunnel Name",
-        "tunnel_secret": "$AZURE_CLOUDFLARE_TUNNEL_SECRET"
-      }' 'https://api.cloudflare.com/client/v4/accounts/$AZURE_CLOUDFLARE_ACCOUNT_ID/tunnels'
-    '''
   }
 }
 
-module cloudflareVpnPublicIp 'cloudflare/public.bicep' = {
-  name: 'virtualNetworkIpv4'
+module cosmosRoleDefinition './cosmos/sql/cosmos-sql-role-def.bicep' = {
+  name: 'cosmos-role-def'
   scope: rg
   params: {
-    ipv4AddressName: virtualNetworkIpv4
-    location: location
-    tags: tags
+    accountName: cosmosDocumentDbAccount.outputs.name
   }
 }
 
-module cloudflareTunnel 'cloudflare/template.bicep' = {
-  name: 'cloudflareTunnel'
+module userRole './cosmos/sql/cosmos-sql-role-assign.bicep' = {
+  name: 'cosmos-sql-user-role'
   scope: rg
   params: {
-    tags: tags
-    location: location
-    adminUsername: userCredentialCloudflare
-    vmCloudflarePassword: vmCloudflarePassword
-    subnetId: vnet.outputs.virtualNetworkSubnets[0].id
-    sshPrivateKey: vmCloudflarePrivateKey
-    publicIpAddressName: virtualNetworkIpv4
-    networkInterfaceName: tag('network-interface', cloudflare_zone1)
-    virtualMachineName: tag('network-vm', cloudflare_zone1)
-    virtualMachineComputerName: tag('computer', cloudflare_zone1)
-    tunnelToken: filter(cloudflareNetworkToken.outputs.env, envVar => envVar.name == 'AZURE_CLOUDFLARE_TUNNEL_SECRET')[0].value
+    accountName: cosmosDocumentDbAccount.outputs.name
+    roleDefinitionId: cosmosRoleDefinition.outputs.id
+    principalId: cosmosIdentity.outputs.userPrincipalId
   }
 }
 
@@ -229,17 +232,5 @@ module vnet './core/networking/virtual-network.bicep' = if (useVirtualNetwork) {
         privateEndpointNetworkPolicies: 'Disabled'
       }
     ]
-  }
-}
-
-module staticWebApp 'core/host/staticapp.bicep' = {
-  name: 'staticWebApp'
-  scope: rg
-  params: {
-    name: staticWebappName
-    appName: 'platform'
-    tags: union({
-      'azd-service-name': 'platform'
-    }, tags)
   }
 }
