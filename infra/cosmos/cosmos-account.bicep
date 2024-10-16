@@ -30,7 +30,6 @@ resource cosmos 'Microsoft.DocumentDB/databaseAccounts@2023-11-15' = {
       schemaType: 'WellDefined'
     }
     databaseAccountOfferType: 'Standard'
-    defaultIdentity: 'UserAssignedIdentity=${keyVaultIdentity}'
     networkAclBypass: 'None'
     disableLocalAuth: false
     enablePartitionMerge: false
