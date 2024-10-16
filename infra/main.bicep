@@ -21,7 +21,6 @@ var resourceGroupName = tag('env', environmentName)
 var keyVaultName = tag('sigkv', environmentName)
 var cosmosName = tag('sig-cosmos', environmentName)
 
-
 var eventHubServicePrincipalName = tag('eventhub-identity', resourceGroupName)
 var deploymentId = guid(tag('deployment', resourceGroupName))
 
