@@ -12,5 +12,5 @@ pipeline:
 services:
   platform:
     host: staticwebapp
-    project: ./apps/platform
+    project: ./apps/client
     language: ts
