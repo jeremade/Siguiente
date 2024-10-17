@@ -12,5 +12,5 @@ pipeline:
 services:
   platform:
     host: staticwebapp
-    project: ./apps/client
+    project: ./apps/iwashacked
     language: ts
